@@ -2,11 +2,33 @@ import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { NavigationProp } from "@react-navigation/native";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 const  CreatePost = ({navigation}: {
   navigation: NavigationProp<any>
 }): ReactElement => {
+
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+
+  const handlePost = async () => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          body,
+        }),
+      });
+      const newPost = await response.json();
+      navigation.navigate('Home', {newPost});
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const voltar = () => {
     navigation.goBack()
@@ -19,11 +41,11 @@ const  CreatePost = ({navigation}: {
         <Title>Nova Publicação </Title>
       </Top>
       <Body>
-        <Input placeholder="Titulo"/>
-        <TextArea placeholder="Descrição"/>
+        <Input placeholder="Titulo" value={title} onChangeText={setTitle}/>
+        <TextArea value={body} onChangeText={setBody} multiline={true} placeholder="Descrição"/>
       </Body>
       <Footer>
-        <Button onPress={() => ''}>
+        <Button onPress={handlePost}>
           <ButtonText>Publicar</ButtonText>
         </Button>
       </Footer>

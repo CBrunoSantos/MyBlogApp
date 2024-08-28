@@ -1,35 +1,45 @@
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import CreatePost from "../components/home/createPost";
 import styled from "styled-components/native";
-import { NavigationProp } from "@react-navigation/native";
-import { ReactElement } from "react";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { ReactElement, useEffect, useState } from "react";
 import api from "./../services/api.service";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import ViewPost from "../components/home/viewPost";
 
-const Home = ({navigation}: {
-  navigation: NavigationProp<any>
+const Home = ({navigation, route}: {
+  navigation: NavigationProp<any>,
+  route: RouteProp<any>
 }): ReactElement => {
 
+  const [posts, setPosts] = useState<any[]>([]);
 
-  const fetchData = async () =>{
-    try {
-      // await api.get('/todos/')
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-      };
-      //@ts-ignore
-      fetch("https://jsonplaceholder.typicode.com/posts", requestOptions)
-        .then((result) => console.log(result))
-      
-    } catch (error) {
-      console.log(error)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if(route.params?.newPost){
+      setPosts([route.params?.newPost, ...posts])
     }
-  }
+  },[route.params?.newPost]);
+
+  const renderPost = ({item}:{item:any}) => (
+    <ViewPost title={item.title} body= {item.body}/>
+  );
 
   const submit = () => {
-    // console.log("post")
-    fetchData();
+    console.log("post")
   }
 
   return (
@@ -39,7 +49,10 @@ const Home = ({navigation}: {
         <Busca onPress={submit}><Ionicons name="search" size={32} color="black" /></Busca>
       </Top>
       <Body>
-
+        <FlatList 
+        data={posts} 
+        keyExtractor={item => item.id.toString()}
+        renderItem={renderPost}/>
       </Body>
       <Footer>
       <Button onPress={() => navigation.navigate('CreatePost')}><Ionicons name="add" size={32} color="white" /></Button>
@@ -77,7 +90,10 @@ const Body = styled.View`
   flex: auto;
   display: flex;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: #EFF1F5;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5%;
 `;
 
 const Button = styled.TouchableOpacity`
