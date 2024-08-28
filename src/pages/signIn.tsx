@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
-const Login = ({navigation}: {
+const SignIn = ({navigation}: {
   navigation: NavigationProp<any>
 }):  ReactElement => {
 
@@ -14,16 +14,17 @@ const Login = ({navigation}: {
   
   return (
     <Container>
+      <Input placeholder="Nome"/>
       <Input placeholder="E-mail" keyboardType="email-address" />
       <Input placeholder="Senha" secureTextEntry />
       <Button onPress={() => navigation.navigate('Home')}>
-        <ButtonText>Entrar</ButtonText>
+        <ButtonText>Criar conta</ButtonText>
       </Button>
     </Container>
   );
 };
 
-export default Login;
+export default SignIn;
 
 const Container = styled.View`
   flex: 1;
