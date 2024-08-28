@@ -14,11 +14,16 @@ const Login = ({navigation}: {
   
   return (
     <Container>
+      <Title>Entrar</Title>
       <Input placeholder="E-mail" keyboardType="email-address" />
       <Input placeholder="Senha" secureTextEntry />
       <Button onPress={() => navigation.navigate('Home')}>
         <ButtonText>Entrar</ButtonText>
       </Button>
+
+      <SignIn onPress={() => navigation.navigate('SignIn')}>
+        <ButtonText>Criar uma conta nova</ButtonText>
+      </SignIn>
     </Container>
   );
 };
@@ -54,4 +59,20 @@ const ButtonText = styled.Text`
   color: #fff;
   font-size: 16px;
   font-weight: bold;
+`;
+
+const SignIn = styled.TouchableOpacity`
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #007bff;
+  align-items: center;
+  margin-top: 5px;
+`;
+
+const Title = styled.Text`
+  color: #000000;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 30%;
 `;
