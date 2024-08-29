@@ -12,7 +12,8 @@ const UserProfile = ({ navigation }: { navigation: NavigationProp<any> }): React
   const { user, updateUser } = useUserContext();
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
-  const emailPerfil = useSelector((state: RootState) => state.validation.name);
+  const emailPerfil = useSelector((state: RootState) => state.validation.emailProfile);
+  const namePerfil = useSelector((state: RootState) => state.validation.nameProfile);
 
   const handleSave = () => {
     if(name && email){
@@ -35,6 +36,7 @@ const UserProfile = ({ navigation }: { navigation: NavigationProp<any> }): React
       </Header>
       <Body>
       <Title>{emailPerfil}</Title>
+      <Title>{namePerfil}</Title>
       <Label>Nome</Label>
       <Input value={name} onChangeText={setName} placeholder="Nome" />
       <Label>Email</Label>

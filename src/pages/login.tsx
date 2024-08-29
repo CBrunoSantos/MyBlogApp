@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { setName } from '../hooks/validation';
+import { setNameProfile,setEmailProfile } from '../hooks/validation';
 
 const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {
   const [email, setEmail] = useState('');
@@ -26,8 +26,9 @@ const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElemen
       );
 
       if (user) {
-        console.log('Usuário autenticado', user);
-        dispatch(setName(email));
+        console.log('Usuário nome', user.name, 'Usuário email', user.email);
+        dispatch(setEmailProfile(user.email));
+        dispatch(setNameProfile(user.name));
         navigation.navigate('Home');
       } else {
         Alert.alert('Erro', 'E-mail ou senha inválidos');

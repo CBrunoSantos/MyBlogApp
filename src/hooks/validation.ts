@@ -1,31 +1,31 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 export interface Validation {
-  validated: string | null
-  name : string | null
+  nameProfile : string | null
+  emailProfile : string | null
 }
 
 const initialState: Validation = {
-  validated:null,
-  name: null,
+  nameProfile: null,
+  emailProfile: null,
 }
 
 const validationSlice = createSlice({
     name: 'validation',
     initialState,
     reducers: {
-      setValidated: (state,{
+      setNameProfile: (state,{
         payload
       }) =>{
-        state.validated = payload
+        state.nameProfile = payload
       },
-      setName: (state,{
+      setEmailProfile: (state,{
         payload
       }) =>{
-        state.name = payload
+        state.emailProfile = payload
       }
     },
 });
 
-export const {setValidated, setName} = validationSlice.actions;
+export const {setNameProfile, setEmailProfile} = validationSlice.actions;
 export default validationSlice.reducer;

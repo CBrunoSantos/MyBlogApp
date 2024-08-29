@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/hooks/store";
 
 interface ViewPostProps {
   title: string;
@@ -13,13 +15,15 @@ interface ViewPostProps {
 const ViewPost: React.FC<ViewPostProps> = ({ title, body, postId, userId }) => {
   const navigation = useNavigation<any>();
   const [user, setUser] = useState<{name: string; email: string} | null>(null);
+  const emailPerfil = useSelector((state: RootState) => state.validation.emailProfile);
+  const namePerfil = useSelector((state: RootState) => state.validation.nameProfile);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
         const data = await response.json();
-        setUser({name: data.name, email: data.email});
+        setUser({name: data.name || namePerfil, email: data.email || emailPerfil});
       } catch (error) {
         console.error("Error fetching user data", error);
       }
@@ -36,7 +40,7 @@ const ViewPost: React.FC<ViewPostProps> = ({ title, body, postId, userId }) => {
       {user && (
         <>
           <HeaderInfo>
-            <ProfileButton onPress={() => navigation.navigate('Profile')}>
+            <ProfileButton>
               <Ionicons name="person-outline" size={25} color="white" />
             </ProfileButton>
             <UserInfo>
@@ -62,7 +66,7 @@ const Container = styled.TouchableOpacity`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
-const ProfileButton = styled.TouchableOpacity`
+const ProfileButton = styled.View`
   height: 40px;
   width: 40px;
   border-radius: 50px;
