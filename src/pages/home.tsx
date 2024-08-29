@@ -47,7 +47,7 @@ const Home = ({navigation, route}: {
   }, [searchQuery, posts]);
 
   const renderPost = ({item}:{item:any}) => (
-    <ViewPost title={item.title} body= {item.body}/>
+    <ViewPost title={item.title} body= {item.body} postId={item.id}/>
   );
 
   return (

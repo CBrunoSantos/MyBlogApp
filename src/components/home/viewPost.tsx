@@ -1,23 +1,31 @@
+import React from "react";
 import styled from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
 
 interface ViewPostProps {
   title: string;
-  body:string;
+  body: string;
+  postId: number;
 }
 
-const ViewPost: React.FC<ViewPostProps> = ({title, body}) => {
+const ViewPost: React.FC<ViewPostProps> = ({ title, body, postId }) => {
+  const navigation = useNavigation<any>();
+
+  const handlePress = () => {
+    navigation.navigate('PostDetail', { postId, title, body });
+  };
 
   return (
-    <Container>
+    <Container onPress={handlePress}>
       <Title>{title}</Title>
       <Body>{body}</Body>
     </Container>
   );
-}
+};
 
 export default ViewPost;
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   padding: 10px;
   margin-bottom: 8px;
   background-color: #ffffff;
