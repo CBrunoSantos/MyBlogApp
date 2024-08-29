@@ -49,15 +49,17 @@ const PostDetail: React.FC<PostDetailProps> = ({ route, navigation }) => {
         <Body>{body}</Body>
         <SectionTitle>Comentários</SectionTitle>
         {loading ? (
-          <ActivityIndicator size="small" color="#007bff" />
+          <ActivityIndicator size="small" color="#0F90D9" />
         ) : (
           <FlatList
             data={comments}
             keyExtractor={item => item.id.toString()}
             renderItem={renderComment}
-            ListFooterComponent={<AddCommentButton><Ionicons name="chatbubble-outline" size={24} color="black" /><AddCommentText>Adicione um comentário</AddCommentText></AddCommentButton>}
           />
         )}
+        <Footer>
+        <AddCommentButton><Ionicons name="chatbubble-outline" size={24} color="black" /><AddCommentText>Adicione um comentário</AddCommentText></AddCommentButton>
+      </Footer>
       </Content>
     </Container>
   );
@@ -66,21 +68,28 @@ const PostDetail: React.FC<PostDetailProps> = ({ route, navigation }) => {
 export default PostDetail;
 
 const Container = styled.View`
-  flex: 1;
+    flex: 1;
+  justify-content: center;
+  padding: 10px;
   background-color: #ffffff;
 `;
 
 const Header = styled.View`
-  flex-direction: row;
+  padding-top: 10%;
+  justify-content: flex-start;
   align-items: center;
-  padding: 16px;
-  background-color: #f8f8f8;
+  flex-direction: row;
 `;
 
 const TextHeader = styled.Text`
   font-size: 18px;
   font-weight: bold;
   margin-left: 16px;
+`;
+
+const Footer = styled.View`
+  width: 100%;
+  background-color: #ffffff;
 `;
 
 const Content = styled.View`
@@ -102,15 +111,20 @@ const Body = styled.Text`
 `;
 
 const SectionTitle = styled.Text`
+  padding: 15px;
   font-size: 18px;
   font-weight: bold;
   margin-top: 16px;
   margin-bottom: 8px;
+  border-top-width: 2px;
+  border-top-color: #eeeeee;
+  border-bottom-width: 2px;
+  border-bottom-color: #eeeeee;
 `;
 
 const Comment = styled.View`
   padding: 8px 0;
-  border-bottom-width: 1px;
+  border-bottom-width: 2px;
   border-bottom-color: #eeeeee;
 `;
 

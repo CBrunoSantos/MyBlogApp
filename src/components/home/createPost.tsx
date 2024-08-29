@@ -36,13 +36,15 @@ const  CreatePost = ({navigation}: {
 
   return (
     <Container>
-      <Top>
+      <Header>
         <Back onPress={voltar}><Ionicons name="close" size={30} color="black" /></Back>
         <Title>Nova Publicação </Title>
-      </Top>
+      </Header>
       <Body>
-        <Input placeholder="Titulo" value={title} onChangeText={setTitle}/>
-        <TextArea value={body} onChangeText={setBody} multiline={true} placeholder="Descrição"/>
+        <Label>Título da publicação</Label>
+        <Input placeholder="Adicione um título" value={title} onChangeText={setTitle}/>
+        <Label>Texto da publicação</Label>
+        <TextArea placeholder="O que gostaria de compartilhar?" value={body} onChangeText={setBody} multiline={true}/>
       </Body>
       <Footer>
         <Button onPress={handlePost}>
@@ -56,13 +58,13 @@ const  CreatePost = ({navigation}: {
 export default CreatePost;
 
 const Container = styled.View`
-  flex: auto;
-  display: flex;
+  flex: 1;
   justify-content: center;
-  background-color: #EFF1F5;
+  padding: 20px;
+  background-color: #ffffff;
 `;
 
-const Top = styled.View`
+const Header = styled.View`
   padding-top: 8%;
   justify-content: flex-start;
   align-items: center;
@@ -85,7 +87,7 @@ const Footer = styled.View`
 const Input = styled.TextInput`
   width: 100%;
   padding: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 3%;
   border-radius: 5px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
@@ -96,16 +98,17 @@ const TextArea = styled.TextInput`
   height: 50%;
   padding: 15px;
   margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
+  text-align: top;
 `;
 
 const Button = styled.TouchableOpacity`
   width: 100%;
   padding: 15px;
   border-radius: 50px;
-  background-color: #007bff;
+  background-color: #0F90D9;
   align-items: center;
 `;
 
@@ -127,4 +130,10 @@ const Back = styled.TouchableOpacity`
   width: 50px;
   align-items: center;
   padding: 2%;
+`;
+
+const Label = styled.Text`
+  font-size: 16px;
+  margin-bottom: 8px;
+  align-items: "left";
 `;

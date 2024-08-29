@@ -49,11 +49,14 @@ const Home = ({navigation, route}: {
   const renderPost = ({item}:{item:any}) => (
     <ViewPost title={item.title} body= {item.body} postId={item.id}/>
   );
+  
 
   return (
     <Container>
-      <Top>
-        <Button onPress={() => navigation.navigate('Profile')} />
+      <Header>
+        <ProfileButton onPress={() => navigation.navigate('Profile')}>
+          <Ionicons name="person-outline" size={25} color="white" />
+        </ProfileButton>
         <Title>Início</Title>
         <BuscaContainer>
           <Busca
@@ -63,7 +66,7 @@ const Home = ({navigation, route}: {
           />
           <Ionicons name="search" size={24} color="black" />
         </BuscaContainer>
-      </Top>
+      </Header>
       <Body>
         <FlatList
           data={filteredPosts}
@@ -71,8 +74,10 @@ const Home = ({navigation, route}: {
           renderItem={renderPost}
         />
       </Body>
+      <Button onPress={() => navigation.navigate('CreatePost')}><Ionicons name="add" size={32} color="white" /></Button>
       <Footer>
-        <Button onPress={() => navigation.navigate('CreatePost')}><Ionicons name="add" size={32} color="white" /></Button>
+        <FooterButton onPress={() => navigation.navigate('Home')}><Ionicons name="home-outline" size={32} color="#0F90D9" /></FooterButton>
+        <FooterButton onPress={() => navigation.navigate('CreatePost')}><Ionicons name="star-outline" size={32} color="#0F90D9" /></FooterButton>
       </Footer>
     </Container>
   );
@@ -87,8 +92,9 @@ const Container = styled.View`
   background-color: #EFF1F5;
 `;
 
-const Top = styled.View`
-  padding: 5%;
+const Header = styled.View`
+  padding-top: 10%;
+  padding-left: 1%;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
@@ -96,11 +102,9 @@ const Top = styled.View`
 `;
 
 const Footer = styled.View`
-  justify-content: flex-end;
+  justify-content: space-evenly;
   align-items: center;
   flex-direction: row;
-  margin-bottom: 2%;
-  margin-right: 2%;
   background-color: #ffffff;
 `;
 
@@ -115,10 +119,29 @@ const Body = styled.View`
 `;
 
 const Button = styled.TouchableOpacity`
+  position: absolute;
+  right: 3%;
+  bottom: 10%;
   height: 50px;
   width: 50px;
   border-radius: 50px;
-  background-color: #007bff;
+  background-color: #0F90D9;
+  align-items: center;
+  padding: 2%;
+`;
+
+const FooterButton = styled.TouchableOpacity`
+  border-radius: 50px;
+  background-color: #ffffff;
+  align-items: center;
+  padding: 5%;
+`;
+
+const ProfileButton = styled.TouchableOpacity`
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  background-color: #0F90D9;
   align-items: center;
   padding: 2%;
 `;
@@ -144,4 +167,5 @@ const Title = styled.Text`
   font-size: 25px;
   font-weight: bold;
   text-align: center;
+  padding-left: 5px;
 `;

@@ -40,14 +40,16 @@ const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElemen
 
   return (
     <Container>
-      <Title>Entrar</Title>
+      <Title>Login</Title>
+      <Label>E-mail</Label>
       <Input
-        placeholder="E-mail"
+        placeholder="Endereço de e-mail"
         keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
       />
+      <Label>Senha</Label>
       <Input
         placeholder="Senha"
         secureTextEntry
@@ -60,7 +62,7 @@ const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElemen
       </Button>
 
       <SignIn onPress={() => navigation.navigate('SignIn')}>
-        <ButtonText>Criar uma conta nova</ButtonText>
+        <SignText>Criar nova conta</SignText>
       </SignIn>
     </Container>
   );
@@ -71,7 +73,6 @@ export default Login;
 const Container = styled.View`
   flex: 1;
   justify-content: center;
-  align-items: center;
   padding: 16px;
   background-color: #ffffff;
 `;
@@ -80,7 +81,7 @@ const Input = styled.TextInput`
   width: 100%;
   padding: 15px;
   margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
 `;
@@ -89,8 +90,9 @@ const Button = styled.TouchableOpacity`
   width: 100%;
   padding: 15px;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #0F90D9;
   align-items: center;
+  border-radius: 30px;
 `;
 
 const ButtonText = styled.Text`
@@ -103,14 +105,26 @@ const SignIn = styled.TouchableOpacity`
   width: 100%;
   padding: 5px;
   border-radius: 5px;
-  background-color: #007bff;
   align-items: center;
   margin-top: 5px;
 `;
 
+const SignText = styled.Text`
+  color: #0F90D9;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
 const Title = styled.Text`
+text-align: center;
   color: #000000;
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 30%;
+  margin-bottom: 15%;
+`;
+
+const Label = styled.Text`
+  font-size: 16px;
+  margin-bottom: 8px;
+  align-items: "left";
 `;
