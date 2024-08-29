@@ -1,47 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, TextInput, Button, Text, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Definindo a interface do tipo User
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  password: string;  // Em um app real, a senha deve ser criptografada
-}
+import { useUserContext } from '../providers/userContext';
+import styled from 'styled-components/native';
 
 const UserProfile = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, updateUser } = useUserContext();
+  const [name, setName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email || '');
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('@user');
-        if (userData !== null) {
-          setUser(JSON.parse(userData) as User);
-        }
-      } catch (error) {
-        console.error('Erro ao carregar os dados do usuário:', error);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const handleSave = () => {
+    if(name && email){
+      updateUser({name, email});
+      Alert.alert('Sucesso', 'perfil atualizado com sucesso!')
+    } else{
+      Alert.alert('Erro', 'nome e email são obrigatórios!')
+    }
+  }
 
   return (
-    <View>
-      {user ? (
-        <>
-          <Text>Nome: {user.name}</Text>
-          <Text>Email: {user.email}</Text>
-          <Text>Username: {user.username}</Text>
-        </>
-      ) : (
-        <Text>Usuário não encontrado.</Text>
-      )}
-    </View>
+    <Container>
+      <Title></Title>
+      <Label>Nome</Label>
+      <Input value={name} onChangeText={setName} placeholder="Nome" />
+      <Label>Email</Label>
+      <Input value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
+      <ButtonContainer>
+        <Button title="salvar" onPress={handleSave}></Button>
+      </ButtonContainer>
+    </Container>
   );
 };
 
 export default UserProfile;
+
+const Container = styled.View`
+  flex: 1;
+  padding: 16px;
+  background-color: #ffffff;
+`;
+
+const Title = styled.Text`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+`;
+
+const Label = styled.Text`
+  font-size: 16px;
+  margin-bottom: 8px;
+`;
+
+const Input = styled.TextInput`
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+`;
+
+const ButtonContainer = styled.View`
+  margin-top: 16px;
+`;

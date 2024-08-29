@@ -71,6 +71,7 @@ const Home = ({navigation, route}: {
         />
       </Body>
       <Footer>
+        <Button onPress={() => navigation.navigate('Profile')} />
         <Button onPress={() => navigation.navigate('CreatePost')}><Ionicons name="add" size={32} color="white" /></Button>
       </Footer>
     </Container>
