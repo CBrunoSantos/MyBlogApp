@@ -3,11 +3,14 @@ import { View, TextInput, Button, Text, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUserContext } from '../providers/userContext';
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../hooks/store';
 
 const UserProfile = () => {
   const { user, updateUser } = useUserContext();
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
+  const emailPerfil = useSelector((state: RootState) => state.validation.name);
 
   const handleSave = () => {
     if(name && email){
@@ -20,7 +23,8 @@ const UserProfile = () => {
 
   return (
     <Container>
-      <Title></Title>
+      <Title>Perfil</Title>
+      <Title>{emailPerfil}</Title>
       <Label>Nome</Label>
       <Input value={name} onChangeText={setName} placeholder="Nome" />
       <Label>Email</Label>

@@ -3,10 +3,13 @@ import React, { ReactElement, useState } from 'react';
 import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { setName } from '../hooks/validation';
 
 const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const submit = async () => {
     if (!email || !password) {
@@ -24,6 +27,7 @@ const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElemen
 
       if (user) {
         console.log('Usuário autenticado', user);
+        dispatch(setName(email));
         navigation.navigate('Home');
       } else {
         Alert.alert('Erro', 'E-mail ou senha inválidos');
