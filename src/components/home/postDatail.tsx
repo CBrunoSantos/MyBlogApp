@@ -19,7 +19,6 @@ const PostDetail: React.FC<PostDetailProps> = ({ route, navigation }) => {
   const emailPerfil = useSelector((state: RootState) => state.validation.emailProfile);
   const namePerfil = useSelector((state: RootState) => state.validation.nameProfile);
 
-  // Usando o Redux para pegar os dados do usuário autenticado
   const authenticatedUser = useSelector((state: any) => state.validation);
 
   useEffect(() => {

@@ -25,18 +25,14 @@ const SignIn = ({ navigation }: { navigation: NavigationProp<any> }): ReactEleme
     };
 
     try {
-      // Verifica se há usuários existentes
       const usersJson = await AsyncStorage.getItem('@users');
       const users = usersJson ? JSON.parse(usersJson) : [];
 
-      // Adiciona o novo usuário ao array de usuários
       users.push(newUser);
 
-      // Salva o array atualizado no AsyncStorage
       await AsyncStorage.setItem('@users', JSON.stringify(users));
       console.log('Usuário criado:', newUser);
 
-      // Navega de volta para a tela de Login
       navigation.navigate('Login');
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
