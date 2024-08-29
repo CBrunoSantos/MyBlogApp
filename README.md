@@ -1,50 +1,88 @@
-# Welcome to your Expo app 👋
+# MyBlogApp
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+MyBlogApp é uma aplicação mobile de blog construída utilizando React Native e Expo. O aplicativo permite que os usuários visualizem postagens, criem novas postagens, comentem nas postagens existentes e gerenciem suas contas de usuário.
 
-## Get started
+## Funcionalidades
 
-1. Install dependencies
+- Visualização de postagens de blog.
+- Criação de novas postagens.
+- Exibição e adição de comentários em postagens.
+- Autenticação de usuários (criação de conta e login).
+- Pesquisa de postagens por título ou conteúdo.
+- Armazenamento local de dados do usuário utilizando `AsyncStorage`.
 
-   ```bash
-   npm install
-   ```
+## Tecnologias Utilizadas
 
-2. Start the app
+- **React Native**: Biblioteca para desenvolvimento de aplicativos móveis.
+- **Expo**: Ferramenta e framework para construir aplicativos React Native rapidamente.
+- **Styled Components**: Biblioteca para estilização de componentes.
+- **React Navigation**: Biblioteca para navegação no React Native.
+- **AsyncStorage**: Biblioteca para armazenamento local de dados no dispositivo.
 
-   ```bash
-    npx expo start
-   ```
+## Pré-requisitos
 
-In the output, you'll find options to open the app in a
+Será necessário as seguintes ferramentas:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [Node.js](https://nodejs.org/) (versão LTS recomendada)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Foi utilizado o Android Studio para esse projeto
 
-## Get a fresh project
+- **Android Studio** (para emular dispositivos Android)
 
-When you're ready, run:
+## Estrutura do Projeto
 
-```bash
-npm run reset-project
-```
+MyBlogApp
+├── src
+│   ├── components
+│   │   ├── home
+│   │   ├── login
+│   │   └── profile
+│   ├── pages
+│   │   ├── Home.tsx
+│   │   ├── Login.tsx
+│   │   ├── SignIn.tsx
+│   │   └── PostDetail.tsx
+│   ├── services
+│   │   └── api.service.ts
+│   └── context
+│       └── UserContext.tsx
+├── App.tsx
+├── package.json
+└── README.md
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
+## Instalação
 
-To learn more about developing your project with Expo, look at the following resources:
+Siga os passos abaixo para rodar o projeto:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+1. **Clone o repositório**:
 
-## Join the community
+    ```bash
+    git clone https://github.com/CBrunoSantos/MyBlogApp.git
+    cd MyBlogApp
+    ```
 
-Join our community of developers creating universal apps.
+2. **Instale as dependências**:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+    ```bash
+    npm install
+    ```
+
+3. **Instale o Expo CLI globalmente**:
+
+    ```bash
+    npm install -g expo-cli
+    ```
+
+4. **Execute o projeto**:
+
+    ```bash
+    expo start
+    ```
+
+5. **Rodar no Android**:
+
+    ```bash
+    npm run android
+    ```
