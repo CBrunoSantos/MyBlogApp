@@ -1,24 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface ViewPostProps {
   title: string;
   body: string;
   postId: number;
+  userId:number;
 }
 
-const ViewPost: React.FC<ViewPostProps> = ({ title, body, postId }) => {
+const ViewPost: React.FC<ViewPostProps> = ({ title, body, postId, userId }) => {
   const navigation = useNavigation<any>();
+  const [user, setUser] = useState<{name: string; email: string} | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+        const data = await response.json();
+        setUser({name: data.name, email: data.email});
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      }
+    }
+    fetchUser();
+  },[userId])
 
   const handlePress = () => {
-    navigation.navigate('PostDetail', { postId, title, body });
+    navigation.navigate('PostDetail', { title, body, postId, userId });
   };
 
   return (
     <Container onPress={handlePress}>
-      <Title>{title}</Title>
-      <Body>{body}</Body>
+      {user && (
+        <>
+          <HeaderInfo>
+            <ProfileButton onPress={() => navigation.navigate('Profile')}>
+              <Ionicons name="person-outline" size={25} color="white" />
+            </ProfileButton>
+            <UserInfo>
+              <UserName>{user.name}</UserName>
+              <UserEmail>@{user.email}</UserEmail>
+            </UserInfo>
+          </HeaderInfo>
+          <Title>{title}</Title>
+          <Body>{body}</Body>
+        </>
+      )}
     </Container>
   );
 };
@@ -31,6 +60,39 @@ const Container = styled.TouchableOpacity`
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const ProfileButton = styled.TouchableOpacity`
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  background-color: #0F90D9;
+  align-items: center;
+  padding: 2%;
+`;
+
+const UserInfo = styled.View`
+  flex-direction: column;
+  align-items: left;
+  margin-bottom: 8px;
+  padding-left: 5px;
+`;
+
+const HeaderInfo = styled.View`
+  flex-direction: row;
+  align-items: left;
+  margin-bottom: 8px;
+`;
+
+const UserName = styled.Text`
+  font-weight: bold;
+  color: #000;
+  font-size: 16px;
+`;
+
+const UserEmail = styled.Text`
+  font-size: 14px;
+  color: #555;
 `;
 
 const Title = styled.Text`
