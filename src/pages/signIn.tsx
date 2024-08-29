@@ -1,13 +1,10 @@
 import { NavigationProp } from '@react-navigation/native';
 import React, { ReactElement, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignIn = ({navigation}: {
-  navigation: NavigationProp<any>
-}):  ReactElement => {
-
+const SignIn = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,25 +16,32 @@ const SignIn = ({navigation}: {
     }
 
     const newUser = {
-      id: Date.now(), // Usando timestamp como ID único
+      id: Date.now(),
       name,
-      username: name.toLowerCase().replace(/\s+/g, ''), // Criar um username baseado no nome
+      username: name.toLowerCase().replace(/\s+/g, ''),
       email,
-      password, // Em um app real, a senha deve ser criptografada
+      password,
     };
 
     try {
-      // Salvar o novo usuário localmente usando AsyncStorage
-      await AsyncStorage.setItem('@user', JSON.stringify(newUser));
+      // Verifica se há usuários existentes
+      const usersJson = await AsyncStorage.getItem('@users');
+      const users = usersJson ? JSON.parse(usersJson) : [];
+
+      // Adiciona o novo usuário ao array de usuários
+      users.push(newUser);
+
+      // Salva o array atualizado no AsyncStorage
+      await AsyncStorage.setItem('@users', JSON.stringify(users));
       console.log('Usuário criado:', newUser);
 
-      // Navegar para a Home
-      navigation.navigate('Home');
+      // Navega de volta para a tela de Login
+      navigation.navigate('Login');
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
     }
   };
-  
+
   return (
     <Container>
       <Input placeholder="Nome" value={name} onChangeText={setName} />

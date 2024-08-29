@@ -1,23 +1,57 @@
 import { NavigationProp } from '@react-navigation/native';
-import React, { ReactElement } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { ReactElement, useState } from 'react';
+import { Alert } from 'react-native';
 import styled from 'styled-components/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ({navigation}: {
-  navigation: NavigationProp<any>
-}):  ReactElement => {
+const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const submit = () => {
-    navigation.navigate('');
-  }
+  const submit = async () => {
+    if (!email || !password) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
+    }
 
-  
+    try {
+      const usersJson = await AsyncStorage.getItem('@users');
+      const users = usersJson ? JSON.parse(usersJson) : [];
+
+      const user = users.find(
+        (u: { email: string; password: string }) => u.email === email && u.password === password
+      );
+
+      if (user) {
+        console.log('Usuário autenticado', user);
+        navigation.navigate('Home');
+      } else {
+        Alert.alert('Erro', 'E-mail ou senha inválidos');
+      }
+    } catch (error) {
+      console.log('Erro ao autenticar usuário', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao tentar autenticar.');
+    }
+  };
+
   return (
     <Container>
       <Title>Entrar</Title>
-      <Input placeholder="E-mail" keyboardType="email-address" />
-      <Input placeholder="Senha" secureTextEntry />
-      <Button onPress={() => navigation.navigate('Home')}>
+      <Input
+        placeholder="E-mail"
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+      />
+      <Input
+        placeholder="Senha"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+        autoCapitalize="none"
+      />
+      <Button onPress={submit}>
         <ButtonText>Entrar</ButtonText>
       </Button>
 
