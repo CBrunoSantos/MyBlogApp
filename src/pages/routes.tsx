@@ -19,7 +19,7 @@ const Routes = (): ReactElement => {
     <Provider store={store}>
       <UserProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="Profile" component={Profile} />
