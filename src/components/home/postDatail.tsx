@@ -58,7 +58,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ route, navigation }) => {
       postId,
       id: comments.length + 1,
       name: namePerfil,
-      email: usernamePerfil || '', // trocar aqui pra username pois não é email
+      email: usernamePerfil || '',
       body: newComment,
     };
 

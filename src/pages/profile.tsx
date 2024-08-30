@@ -13,14 +13,12 @@ const Profile = ({ navigation }: { navigation: NavigationProp<any> }): ReactElem
   useEffect(() => {
     const fetchUserAndPosts = async () => {
       try {
-        // Recupera o usuário logado do AsyncStorage
         const userJson = await AsyncStorage.getItem('@currentUser');
         const currentUser = userJson ? JSON.parse(userJson) : null;
 
         if (currentUser) {
           setUser(currentUser);
 
-          // Busca os posts do usuário logado
           const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${currentUser.id}`);
           const userPosts = await response.json();
           setPosts(userPosts);

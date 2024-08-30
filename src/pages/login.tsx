@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setNameProfile,setUsernameProfile } from '../hooks/validation';
 
 const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {

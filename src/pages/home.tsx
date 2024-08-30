@@ -1,5 +1,4 @@
-import { View, Text, FlatList } from "react-native";
-import CreatePost from "../components/home/createPost";
+import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { ReactElement, useEffect, useState } from "react";

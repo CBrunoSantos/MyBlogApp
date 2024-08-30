@@ -20,7 +20,6 @@ const SignIn = ({ navigation }: { navigation: NavigationProp<any> }): ReactEleme
       const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
       const usersData = await response.json();
 
-      // Verifica se o usuário já existe na API
       const existingUser = usersData.find(
         (user: { email: string }) => user.email.toLowerCase() === email.toLowerCase()
       );
@@ -29,11 +28,9 @@ const SignIn = ({ navigation }: { navigation: NavigationProp<any> }): ReactEleme
       const users = usersJson ? JSON.parse(usersJson) : [];
 
       if (existingUser) {
-        // Adiciona a senha para o usuário existente e armazena no AsyncStorage
         const newUser = { ...existingUser, password };
         users.push(newUser);
       } else {
-        // Se o usuário não existir na API, cria um novo usuário com os campos disponíveis
         const newUser = {
           id: Date.now(),
           name,
@@ -61,7 +58,6 @@ const SignIn = ({ navigation }: { navigation: NavigationProp<any> }): ReactEleme
         users.push(newUser);
       }
 
-      // Armazena os usuários atualizados no AsyncStorage
       await AsyncStorage.setItem('@users', JSON.stringify(users));
       console.log('Usuário criado:', name);
 
