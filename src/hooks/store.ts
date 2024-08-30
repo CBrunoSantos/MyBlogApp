@@ -1,6 +1,5 @@
-// src/store/store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducer'; // ajuste o caminho conforme necessário
+import rootReducer from './reducer';
 
 export const store = configureStore({
   reducer: rootReducer,

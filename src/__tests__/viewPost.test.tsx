@@ -1,7 +1,6 @@
-// src/components/__tests__/ViewPost.test.tsx
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import ViewPost from '../components/home/viewPost'; // Certifique-se de ajustar o caminho de acordo com seu projeto
+import ViewPost from '../components/home/viewPost';
 import { NavigationContainer } from '@react-navigation/native';
 
 describe('ViewPost Component', () => {

@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { FlatList, TouchableOpacity, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import ViewPost from '@/src/components/home/viewPost'; // Ajuste o caminho de acordo com a sua estrutura
+import ViewPost from '@/src/components/home/viewPost';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
 
