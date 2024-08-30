@@ -15,7 +15,7 @@ interface ViewPostProps {
 const ViewPost: React.FC<ViewPostProps> = ({ title, body, postId, userId }) => {
   const navigation = useNavigation<any>();
   const [user, setUser] = useState<{name: string; email: string} | null>(null);
-  const emailPerfil = useSelector((state: RootState) => state.validation.emailProfile);
+  const emailPerfil = useSelector((state: RootState) => state.validation.usernameProfile);
   const namePerfil = useSelector((state: RootState) => state.validation.nameProfile);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const ViewPost: React.FC<ViewPostProps> = ({ title, body, postId, userId }) => {
       try {
         const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
         const data = await response.json();
-        setUser({name: data.name || namePerfil, email: data.email || emailPerfil});
+        setUser({name: data.name || namePerfil, email: data.username || emailPerfil});
       } catch (error) {
         console.error("Error fetching user data", error);
       }

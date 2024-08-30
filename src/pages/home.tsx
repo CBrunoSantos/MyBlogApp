@@ -3,9 +3,9 @@ import CreatePost from "../components/home/createPost";
 import styled from "styled-components/native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { ReactElement, useEffect, useState } from "react";
-import api from "./../services/api.service";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ViewPost from "../components/home/viewPost";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = ({navigation, route}: {
   navigation: NavigationProp<any>,
@@ -15,6 +15,19 @@ const Home = ({navigation, route}: {
   const [posts, setPosts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPosts, setFilteredPosts] = useState<any[]>([]);
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const userJson = await AsyncStorage.getItem('@currentUser');
+      const currentUser = userJson ? JSON.parse(userJson) : null;
+      if (currentUser) {
+        setUserId(currentUser.id);
+      }
+    };
+
+    fetchUserId();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,14 +60,21 @@ const Home = ({navigation, route}: {
   }, [searchQuery, posts]);
 
   const renderPost = ({item}:{item:any}) => (
-    <ViewPost title={item.title} body= {item.body} postId={item.id} userId={item.userId}/>
+    <ViewPost title={item.title} body={item.body} postId={item.id} userId={item.userId}/>
   );
-  
+
+  const goToProfile = () => {
+    if (userId) {
+      navigation.navigate('Profile', { userId });
+    } else {
+      console.error('User ID não encontrado');
+    }
+  }
 
   return (
     <Container>
       <Header>
-        <ProfileButton onPress={() => navigation.navigate('Profile')}>
+        <ProfileButton onPress={goToProfile}>
           <Ionicons name="person-outline" size={25} color="white" />
         </ProfileButton>
         <Title>Início</Title>

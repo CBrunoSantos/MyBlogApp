@@ -2,12 +2,12 @@ import {createSlice} from '@reduxjs/toolkit';
 
 export interface Validation {
   nameProfile : string | null
-  emailProfile : string | null
+  usernameProfile : string | null
 }
 
 const initialState: Validation = {
   nameProfile: null,
-  emailProfile: null,
+  usernameProfile: null,
 }
 
 const validationSlice = createSlice({
@@ -19,13 +19,13 @@ const validationSlice = createSlice({
       }) =>{
         state.nameProfile = payload
       },
-      setEmailProfile: (state,{
+      setUsernameProfile: (state,{
         payload
       }) =>{
-        state.emailProfile = payload
+        state.usernameProfile = payload
       }
     },
 });
 
-export const {setNameProfile, setEmailProfile} = validationSlice.actions;
+export const {setNameProfile, setUsernameProfile} = validationSlice.actions;
 export default validationSlice.reducer;

@@ -16,32 +16,65 @@ const SignIn = ({ navigation }: { navigation: NavigationProp<any> }): ReactEleme
       return;
     }
 
-    const newUser = {
-      id: Date.now(),
-      name,
-      username: name.toLowerCase().replace(/\s+/g, ''),
-      email,
-      password,
-    };
-
     try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
+      const usersData = await response.json();
+
+      // Verifica se o usuário já existe na API
+      const existingUser = usersData.find(
+        (user: { email: string }) => user.email.toLowerCase() === email.toLowerCase()
+      );
+
       const usersJson = await AsyncStorage.getItem('@users');
       const users = usersJson ? JSON.parse(usersJson) : [];
 
-      users.push(newUser);
+      if (existingUser) {
+        // Adiciona a senha para o usuário existente e armazena no AsyncStorage
+        const newUser = { ...existingUser, password };
+        users.push(newUser);
+      } else {
+        // Se o usuário não existir na API, cria um novo usuário com os campos disponíveis
+        const newUser = {
+          id: Date.now(),
+          name,
+          username: name.toLowerCase().replace(/\s+/g, ''),
+          email,
+          password,
+          address: {
+            street: '',
+            suite: '',
+            city: '',
+            zipcode: '',
+            geo: {
+              lat: '',
+              lng: '',
+            },
+          },
+          phone: '',
+          website: '',
+          company: {
+            name: '',
+            catchPhrase: '',
+            bs: '',
+          },
+        };
+        users.push(newUser);
+      }
 
+      // Armazena os usuários atualizados no AsyncStorage
       await AsyncStorage.setItem('@users', JSON.stringify(users));
-      console.log('Usuário criado:', newUser);
+      console.log('Usuário criado:', name);
 
       navigation.navigate('Login');
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao tentar criar o usuário.');
     }
   };
 
   const voltar = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   return (
     <Container>

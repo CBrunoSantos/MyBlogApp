@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNameProfile,setEmailProfile } from '../hooks/validation';
+import { setNameProfile,setUsernameProfile } from '../hooks/validation';
 
 const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ const Login = ({ navigation }: { navigation: NavigationProp<any> }): ReactElemen
 
       if (user) {
         console.log('Usuário nome', user.name, 'Usuário email', user.email);
-        dispatch(setEmailProfile(user.email));
+        dispatch(setUsernameProfile(user.username));
         dispatch(setNameProfile(user.name));
         navigation.navigate('Home');
       } else {

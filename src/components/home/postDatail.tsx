@@ -16,7 +16,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [newComment, setNewComment] = useState('');
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const emailPerfil = useSelector((state: RootState) => state.validation.emailProfile);
+  const usernamePerfil = useSelector((state: RootState) => state.validation.usernameProfile);
   const namePerfil = useSelector((state: RootState) => state.validation.nameProfile);
 
   const authenticatedUser = useSelector((state: any) => state.validation);
@@ -38,7 +38,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ route, navigation }) => {
       try {
         const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
         const data = await response.json();
-        setUser({ name: data.name || namePerfil, email: data.email || emailPerfil });
+        setUser({ name: data.name || namePerfil, email: data.username || usernamePerfil });
       } catch (error) {
         console.log('Erro ao carregar informações do usuário', error);
       }
@@ -58,7 +58,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ route, navigation }) => {
       postId,
       id: comments.length + 1,
       name: namePerfil,
-      email: emailPerfil || '',
+      email: usernamePerfil || '', // trocar aqui pra username pois não é email
       body: newComment,
     };
 

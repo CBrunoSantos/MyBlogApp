@@ -1,107 +1,190 @@
-import React, { ReactElement, useContext, useEffect, useState } from 'react';
-import { View, TextInput, Button, Text, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useUserContext } from '../providers/userContext';
+import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
-import { RootState } from '../hooks/store';
-import { NavigationProp } from '@react-navigation/native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import ViewPost from '@/src/components/home/viewPost'; // Ajuste o caminho de acordo com a sua estrutura
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationProp } from '@react-navigation/native';
 
-const UserProfile = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {
-  const { user, updateUser } = useUserContext();
-  const [name, setName] = useState(user?.name || '');
-  const [email, setEmail] = useState(user?.email || '');
-  const emailPerfil = useSelector((state: RootState) => state.validation.emailProfile);
-  const namePerfil = useSelector((state: RootState) => state.validation.nameProfile);
+const Profile = ({ navigation }: { navigation: NavigationProp<any> }): ReactElement => {
+  const [user, setUser] = useState<any>(null);
+  const [posts, setPosts] = useState<any[]>([]);
 
-  const handleSave = () => {
-    if(name && email){
-      updateUser({name, email});
-      Alert.alert('Sucesso', 'perfil atualizado com sucesso!')
-    } else{
-      Alert.alert('Erro', 'nome e email são obrigatórios!')
-    }
+  useEffect(() => {
+    const fetchUserAndPosts = async () => {
+      try {
+        // Recupera o usuário logado do AsyncStorage
+        const userJson = await AsyncStorage.getItem('@currentUser');
+        const currentUser = userJson ? JSON.parse(userJson) : null;
+
+        if (currentUser) {
+          setUser(currentUser);
+
+          // Busca os posts do usuário logado
+          const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${currentUser.id}`);
+          const userPosts = await response.json();
+          setPosts(userPosts);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário e posts:', error);
+      }
+    };
+
+    fetchUserAndPosts();
+  }, []);
+
+  const renderPost = ({ item }: { item: any }) => (
+    <ViewPost title={item.title} body={item.body} postId={item.id} userId={item.userId} />
+  );
+
+  if (!user) {
+    return (
+      <Container>
+        <LoadingText>Carregando...</LoadingText>
+      </Container>
+    );
   }
 
   const voltar = () => {
-    navigation.goBack()
+    navigation.goBack();
   }
 
   return (
     <Container>
       <Header>
-        <Back onPress={voltar}><Ionicons name="arrow-back" size={30} color="black" /></Back>
-      <Title>Perfil</Title>
+        <TouchableOpacity onPress={() => voltar()}>
+          <Ionicons name="arrow-back" size={24} color="black" />
+        </TouchableOpacity>
+        <TextHeader>Perfil</TextHeader>
       </Header>
-      <Body>
-      <Title>{emailPerfil}</Title>
-      <Title>{namePerfil}</Title>
-      <Label>Nome</Label>
-      <Input value={name} onChangeText={setName} placeholder="Nome" />
-      <Label>Email</Label>
-      <Input value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
-      <ButtonContainer>
-        <Button title="salvar" onPress={handleSave}></Button>
-      </ButtonContainer>
+      <BodyProfile>
+        <HeaderProfile>
+          <ProfileButton>
+            <Ionicons name="person-outline" size={50} color="white" />
+          </ProfileButton>
+          <UserInfo>
+            <UserName>{user.name}</UserName>
+            <UserEmail>@{user.username}</UserEmail>
+          </UserInfo>
+        </HeaderProfile>
+        <UserStatus>
+          <Ionicons name="mail-outline" size={15} color="black" />
+          {user.email || 'E-mail não disponível'}
+        </UserStatus>
+        <UserStatus>
+          <Ionicons name="location-outline" size={15} color="black" />{user.address ? `${user.address.street}, ${user.address.city}` : 'Endereço não disponível'}
+        </UserStatus>
+        <UserStatus>
+          <Ionicons name="briefcase-outline" size={15} color="black" />{user.company.name || 'Telefone não disponível'}
+        </UserStatus>
+        <UserStatus>
+          <Ionicons name="call-outline" size={15} color="black" />{user.phone || 'Telefone não disponível'}
+        </UserStatus>
+      </BodyProfile>
+        <Body>
+          <FlatList
+            data={posts}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderPost}
+          />
       </Body>
-
     </Container>
   );
 };
 
-export default UserProfile;
+export default Profile;
 
 const Container = styled.View`
-  flex: 1;
+  flex: auto;
+  display: flex;
   justify-content: center;
-  padding: 20px;
-  background-color: #ffffff;
+  background-color: #EFF1F5;
 `;
 
 const Header = styled.View`
   padding-top: 10%;
+  padding-left: 1%;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
+  background-color: #ffffff;
 `;
 
-const Back = styled.TouchableOpacity`
-  height: 50px;
-  width: 50px;
+const HeaderProfile = styled.View`
+  padding-top: 1%;
+  padding-left: 1%;
+  padding-bottom: 3%;
+  justify-content: flex-start;
   align-items: center;
-  padding: 2%;
+  flex-direction: row;
+  background-color: #ffffff;
 `;
 
-const Title = styled.Text`
-  color: #000000;
-  font-size: 20px;
+const BodyProfile = styled.View`
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 1%;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
+`;
+
+const TextHeader = styled.Text`
+  font-size: 18px;
   font-weight: bold;
-  text-align: center;
+  margin-left: 16px;
 `;
 
 const Body = styled.View`
   flex: auto;
   display: flex;
   justify-content: center;
-  background-color: #ffffff;
-  padding: 15px;
+  background-color: #EFF1F5;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5%;
 `;
 
-const Label = styled.Text`
+const ProfileButton = styled.View`
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+  background-color: #0F90D9;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+`;
+
+const UserInfo = styled.View`
+  flex-direction: column;
+`;
+
+const UserName = styled.Text`
+  font-size: 22px;
+  font-weight: bold;
+  color: #000;
+`;
+
+const UserEmail = styled.Text`
   font-size: 16px;
-  margin-bottom: 8px;
+  color: #000000;
+  margin-top: 4px;
 `;
 
-const Input = styled.TextInput`
-  width: 100%;
-  padding: 15px;
-  margin-bottom: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
+const UserStatus = styled.Text`
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+  color: #000000;
+  margin-top: 1%;
+  padding-left: 5%;
 `;
 
-const ButtonContainer = styled.View`
-  margin-top: 16px;
+
+const LoadingText = styled.Text`
+  font-size: 18px;
+  color: #000000;
+  text-align: center;
+  margin-top: 20px;
 `;
