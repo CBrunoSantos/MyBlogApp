@@ -1,6 +1,7 @@
 import Login from "@/src/pages/login";
 import SignIn from "@/src/pages/signIn";
 import Home from "@/src/pages/home";
+import Favorites from "@/src/pages/favorites";
 import CreatePost from "@/src/components/home/createPost";
 import PostDetail from "@/src/components/home/postDatail";
 import Profile from '@/src/pages/profile';
@@ -23,6 +24,7 @@ const Routes = (): ReactElement => {
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Favorites" component={Favorites} />
             <Stack.Screen name="CreatePost" component={CreatePost} />
             <Stack.Screen name="PostDetail" component={PostDetail} />
           </Stack.Navigator>

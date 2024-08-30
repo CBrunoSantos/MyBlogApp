@@ -96,8 +96,12 @@ const Home = ({navigation, route}: {
       </Body>
       <Button onPress={() => navigation.navigate('CreatePost')}><Ionicons name="add" size={32} color="white" /></Button>
       <Footer>
-        <FooterButton onPress={() => navigation.navigate('Home')}><Ionicons name="home-outline" size={32} color="#0F90D9" /></FooterButton>
-        <FooterButton onPress={() => navigation.navigate('CreatePost')}><Ionicons name="star-outline" size={32} color="#0F90D9" /></FooterButton>
+        <FooterButton onPress={() => navigation.navigate('Home')}><Ionicons name="home-outline" size={25} color="#0F90D9" />
+          <FooterText>HOME</FooterText>
+        </FooterButton>
+        <FooterButton onPress={() => navigation.navigate('Favorites')}><Ionicons name="star-outline" size={25} color="#000000" />
+          <FooterText>FAVORITOS</FooterText>
+        </FooterButton>
       </Footer>
     </Container>
   );
@@ -115,6 +119,7 @@ const Container = styled.View`
 const Header = styled.View`
   padding-top: 10%;
   padding-left: 1%;
+  padding-bottom: 4%;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
@@ -151,11 +156,17 @@ const Button = styled.TouchableOpacity`
 `;
 
 const FooterButton = styled.TouchableOpacity`
-  border-radius: 50px;
   background-color: #ffffff;
   align-items: center;
-  padding: 5%;
+  padding: 3%;
 `;
+
+const FooterText = styled.Text`
+  background-color: #ffffff;
+  align-items: center;
+  font-size: 10px;
+`;
+
 
 const ProfileButton = styled.TouchableOpacity`
   height: 40px;
